@@ -6,8 +6,10 @@
 package view;
 
 import Connection.ConnectionFactory;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
 import model.bean.Usuario;
 
@@ -18,7 +20,7 @@ import model.bean.Usuario;
  * @author mayco
  */
 public class Login extends javax.swing.JFrame {
-
+    
     
     /**
      * Creates new form Login
@@ -135,10 +137,13 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtsenhaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        UsuarioDAO usu = new UsuarioDAO();
-        List<Usuario> l = new ArrayList<Usuario>();
-        l = usu.busca();
+        String perfil = validacao();
+        if(perfil.equals("admin")){
+            
+        }
+        if(perfil.equals("funcionario")){
+            
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -171,11 +176,33 @@ public class Login extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Login().setVisible(true);
                 
             }
         });
+    }
+    public String validacao(){
+        
+        UsuarioDAO usu = new UsuarioDAO();
+        List<Usuario> l = new ArrayList<Usuario>();
+        l = usu.busca();
+        String perfil;
+        try{
+            for(Usuario u : l){
+                
+                perfil = u.getPerfil();
+                if (u.getNome().equals(txtnome.getText()) && u.getSenha().equals(txtsenha.getText())) {
+                    
+                    return perfil;
+                }
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Login ou senha errados");
+            return null;
+        }
+        return null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

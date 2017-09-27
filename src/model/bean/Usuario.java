@@ -8,6 +8,7 @@ public class Usuario {
     private String nome;
     private String senha;
     private int id;
+    private String perfil;
 
     public int getId() {
         return id;
@@ -32,6 +33,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
     
 }
