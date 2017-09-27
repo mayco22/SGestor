@@ -6,6 +6,10 @@
 package view;
 
 import Connection.ConnectionFactory;
+import java.util.ArrayList;
+import java.util.List;
+import model.DAO.UsuarioDAO;
+import model.bean.Usuario;
 
 
 
@@ -131,8 +135,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtsenhaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ConnectionFactory c = new ConnectionFactory();
-        c.getConnection();
+        
+        UsuarioDAO usu = new UsuarioDAO();
+        List<Usuario> l = new ArrayList<Usuario>();
+        l = usu.busca();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
