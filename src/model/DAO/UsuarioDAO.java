@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class UsuarioDAO {
     
-    public void create(){
+    public void busca(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         try {
