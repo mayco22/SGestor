@@ -5,11 +5,8 @@
  */
 package view;
 
-import Connection.ConnectionFactory;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
 import model.bean.Usuario;
 
@@ -137,14 +134,35 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtsenhaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String perfil = validacao();
-        if(perfil.equals("admin")){
-            
-        }
-        if(perfil.equals("funcionario")){
-            
-        }
+        Principal p = new Principal();
+        Usuario u = new Usuario();
+        UsuarioDAO usu = new UsuarioDAO();
+        List<Usuario> l = new ArrayList<>();
         
+        l = usu.read();
+        
+        u.setNome(txtnome.getText());
+        u.setSenha(txtsenha.getText());
+        
+        try{
+            for(Usuario us : l){
+                if (us.getNome().equals(us.getNome()) && us.getSenha().equals(us.getSenha())) {
+                    u.setPerfil(us.getPerfil());
+                }
+            }
+            if(u.getPerfil().equals("admin")){
+                p.setVisible(true);
+                dispose();
+            }
+            if(u.getPerfil().equals("funcionario")){
+                p.setVisible(true);
+                //p.cadasus.setVisible(false);
+                dispose();
+            }
+            
+        }catch(Exception e){
+           throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -183,27 +201,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    public String validacao(){
-        
-        UsuarioDAO usu = new UsuarioDAO();
-        List<Usuario> l = new ArrayList<Usuario>();
-        l = usu.busca();
-        String perfil;
-        try{
-            for(Usuario u : l){
-                
-                perfil = u.getPerfil();
-                if (u.getNome().equals(txtnome.getText()) && u.getSenha().equals(txtsenha.getText())) {
-                    
-                    return perfil;
-                }
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Login ou senha errados");
-            return null;
-        }
-        return null;
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
