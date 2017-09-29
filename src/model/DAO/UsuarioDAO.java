@@ -79,6 +79,22 @@ public class UsuarioDAO {
         finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    public void delete(int id){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = con.prepareStatement("DELETE FROM usuario where id=?");
+            stmt.setInt(1, id);
+            
+            stmt.execute();
+            JOptionPane.showMessageDialog(null, "Deletado com sucesso.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERRO:"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
         
     }
 }

@@ -7,6 +7,7 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
 import model.bean.Usuario;
 
@@ -161,15 +162,19 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         UsuarioDAO u = new UsuarioDAO();
         String nome,senha,perfil;
-        nome = txtnome.getText();
-        senha= txtsenha.getText();
-        perfil = (String) cbperfil.getSelectedItem();
-
-        u.create(nome, senha, perfil);
-
-        txtnome.setText("");
-        txtsenha.setText("");
-        cbperfil.setSelectedItem("Selecione");
+        
+        if(!cbperfil.getSelectedItem().equals("Selecione")){
+            nome = txtnome.getText();
+            senha= txtsenha.getText();
+            perfil = (String) cbperfil.getSelectedItem();
+            u.create(nome, senha, perfil);
+            txtnome.setText("");
+            txtsenha.setText("");
+            cbperfil.setSelectedItem("Selecione");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Selecione o perfil.");
+        return;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cbperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbperfilActionPerformed
@@ -216,9 +221,20 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-
+        UsuarioDAO h = new UsuarioDAO();
+        List<Usuario> l = new ArrayList<>();
+        int id=0;
         
-
+        for (Usuario u : l) {
+            if (txtnome.getText().equals(u.getNome())) {
+                id = u.getId();
+            }
+        }
+        h.delete(id);
+        
+        txtnome.setText("");
+        txtsenha.setText("");
+        cbperfil.setSelectedItem("Selecione");
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
