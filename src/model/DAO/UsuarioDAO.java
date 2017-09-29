@@ -15,20 +15,15 @@ import model.bean.Usuario;
  */
 public class UsuarioDAO {
     
-    private Connection con;
-        public UsuarioDAO() {
-        this.con = new ConnectionFactory().getConnection();
-    }
-    
     public List<Usuario> read(){
-        
+        Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs  = null;
         List<Usuario> u = new ArrayList<>(); 
         
         try {
             
-            stmt = this.con.prepareStatement("SELECT * FROM usuario");
+            stmt = con.prepareStatement("SELECT * FROM usuario");
             rs = stmt.executeQuery();
             while(rs.next()){
                 Usuario usuario = new Usuario();
@@ -49,9 +44,10 @@ public class UsuarioDAO {
         }
     }
     public void create(String nome, String senha, String perfil){
+        Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         try{
-            stmt = this.con.prepareStatement("INSERT INTO usuario(nome,senha,perfil) VALUES (?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO usuario(nome,senha,perfil) VALUES (?,?,?)");
             stmt.setString(1, nome);
             stmt.setString(2, senha);
             stmt.setString(3, perfil);
@@ -66,17 +62,19 @@ public class UsuarioDAO {
         }
     }
     public void update(int id,String nome, String senha, String perfil){
+        Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = this.con.prepareStatement("UPDATE usuario set nome=?,senha=?,perfil=? WHERE id =? ");
+            stmt = con.prepareStatement("UPDATE usuario set nome=?,senha=?,perfil=? WHERE id =?");
             stmt.setString(1, nome);
             stmt.setString(2, senha);
             stmt.setString(3, perfil);
             stmt.setInt(4, id);
             
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Alterado Com sucesso.");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, "erro:"+e);
         }
         finally{
             ConnectionFactory.closeConnection(con, stmt);

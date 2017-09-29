@@ -7,10 +7,9 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
 import model.bean.Usuario;
-
-
 
 /**
  *
@@ -45,6 +44,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sgestor");
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -140,24 +140,32 @@ public class Login extends javax.swing.JFrame {
         List<Usuario> l = new ArrayList<>();
         
         l = usu.read();
-        
+        boolean enter = false;
         u.setNome(txtnome.getText());
         u.setSenha(txtsenha.getText());
         
         try{
             for(Usuario us : l){
-                if (us.getNome().equals(us.getNome()) && us.getSenha().equals(us.getSenha())) {
+                if (u.getNome().equals(us.getNome()) && u.getSenha().equals(us.getSenha())) {
                     u.setPerfil(us.getPerfil());
+                    enter = true;
                 }
             }
-            if(u.getPerfil().equals("admin")){
-                p.setVisible(true);
-                dispose();
-            }
-            if(u.getPerfil().equals("funcionario")){
-                p.setVisible(true);
-                //p.cadasus.setVisible(false);
-                dispose();
+            if (enter == true) {
+                if(u.getPerfil().equals("admin")){
+                    p.setVisible(true);
+                    p.setExtendedState(MAXIMIZED_BOTH);
+                    dispose();
+                }
+                if(u.getPerfil().equals("funcionario")){
+                    p.setVisible(true);
+                    p.setExtendedState(MAXIMIZED_BOTH);
+                    //p.cadasus.setVisible(false);
+                    dispose();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario ou senha nao existem.");
+                return;
             }
             
         }catch(Exception e){

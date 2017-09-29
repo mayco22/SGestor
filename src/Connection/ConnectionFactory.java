@@ -17,9 +17,7 @@ public class ConnectionFactory {
         try {
             String url ="jdbc:sqlite:SGestor_DB.db";
             con = DriverManager.getConnection(url);
-            System.out.println("Conexao Estabelecida");
             return con;
-            
         } catch (SQLException e) {
             System.err.println(e);
             return null;
