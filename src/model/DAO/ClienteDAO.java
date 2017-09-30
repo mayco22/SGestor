@@ -80,8 +80,10 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
-            return null;
         }
+    }
+    public void delete(){
+        
     }
     
 }

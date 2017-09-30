@@ -85,7 +85,7 @@ public class UsuarioDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM usuario where id=?");
+            stmt = con.prepareStatement("delete from usuario where id = ?");
             stmt.setInt(1, id);
             
             stmt.execute();

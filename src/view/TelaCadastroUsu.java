@@ -224,7 +224,7 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         UsuarioDAO h = new UsuarioDAO();
         List<Usuario> l = new ArrayList<>();
         int id=0;
-        
+        l = h.read();
         for (Usuario u : l) {
             if (txtnome.getText().equals(u.getNome())) {
                 id = u.getId();
