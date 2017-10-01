@@ -48,6 +48,8 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
+        setClosable(true);
+
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,14 +162,14 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        UsuarioDAO u = new UsuarioDAO();
-        String nome,senha,perfil;
+        UsuarioDAO ud = new UsuarioDAO();
+        Usuario u = new Usuario();
         
         if(!cbperfil.getSelectedItem().equals("Selecione")){
-            nome = txtnome.getText();
-            senha= txtsenha.getText();
-            perfil = (String) cbperfil.getSelectedItem();
-            u.create(nome, senha, perfil);
+            u.setNome(txtnome.getText());
+            u.setSenha(txtsenha.getText());
+            u.setPerfil((String) cbperfil.getSelectedItem());
+            ud.create(u);
             txtnome.setText("");
             txtsenha.setText("");
             cbperfil.setSelectedItem("Selecione");
@@ -184,7 +186,7 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         UsuarioDAO u = new UsuarioDAO();
         List<Usuario> lista = new ArrayList<>();
-        
+        int i =0;
         lista = u.read();
 
         for(Usuario usu : lista){
@@ -192,15 +194,24 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
                 txtnome.setText(usu.getNome());
                 txtsenha.setText(usu.getSenha());
                 cbperfil.setSelectedItem(usu.getPerfil());
+                i++;
             }
         }
+        if(i == 0){
+            JOptionPane.showMessageDialog(null, "Usuario não encontrado ou não existe!");
+        }
+        
+        txtnome.setText("");
+        txtsenha.setText("");
+        cbperfil.setSelectedItem("Selecione");
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-        UsuarioDAO u = new UsuarioDAO();
+        Usuario u = new Usuario();
+        UsuarioDAO UD = new UsuarioDAO();
         List<Usuario> l = new ArrayList<>();
-        l = u.read();
+        l = UD.read();
         int id=0;
         for(Usuario usu : l){
             if (txtnome.getText().equals(usu.getNome())) {
@@ -210,9 +221,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         if (id == 0) {
             return;
         }
-        String nome=txtnome.getText(),senha= txtsenha.getText(),perfil = (String) cbperfil.getSelectedItem();
-        
-        u.update(id,nome, senha, perfil);
+        u.setNome(txtnome.getText());
+        u.setSenha(txtsenha.getText());
+        u.setPerfil((String) cbperfil.getSelectedItem());
+        u.setId(id);
+        UD.update(u);
 
         txtnome.setText("");
         txtsenha.setText("");

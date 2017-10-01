@@ -154,12 +154,10 @@ public class Login extends javax.swing.JFrame {
             if (enter == true) {
                 if(u.getPerfil().equals("admin")){
                     p.setVisible(true);
-                    p.setExtendedState(MAXIMIZED_BOTH);
                     dispose();
                 }
                 if(u.getPerfil().equals("funcionario")){
                     p.setVisible(true);
-                    p.setExtendedState(MAXIMIZED_BOTH);
                     //p.cadasus.setVisible(false);
                     dispose();
                 }

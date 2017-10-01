@@ -18,9 +18,9 @@ import model.bean.Cliente;
 public class ClienteDAO {
     Connection con = ConnectionFactory.getConnection();
     
-    public void Create(){
+    public void Create(Cliente c ){
         PreparedStatement stmt = null;
-        Cliente c = new Cliente();
+        
         try {
             stmt = con.prepareStatement("INSERT INTO Cliente(nome_cli,email_cli,telefone_cli,celular_cli) VALUES (?,?,?,?)");
             stmt.setString(1, c.getNome());

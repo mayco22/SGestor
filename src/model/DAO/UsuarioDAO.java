@@ -43,14 +43,14 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con,stmt,rs);
         }
     }
-    public void create(String nome, String senha, String perfil){
+    public void create(Usuario u){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         try{
             stmt = con.prepareStatement("INSERT INTO usuario(nome,senha,perfil) VALUES (?,?,?)");
-            stmt.setString(1, nome);
-            stmt.setString(2, senha);
-            stmt.setString(3, perfil);
+            stmt.setString(1, u.getNome());
+            stmt.setString(2, u.getSenha());
+            stmt.setString(3, u.getPerfil());
             
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Criado com Sucesso!");
@@ -61,15 +61,15 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    public void update(int id,String nome, String senha, String perfil){
+    public void update(Usuario u){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement("UPDATE usuario set nome=?,senha=?,perfil=? WHERE id =?");
-            stmt.setString(1, nome);
-            stmt.setString(2, senha);
-            stmt.setString(3, perfil);
-            stmt.setInt(4, id);
+            stmt.setString(1, u.getNome());
+            stmt.setString(2, u.getSenha());
+            stmt.setString(3, u.getPerfil());
+            stmt.setInt(4, u.getId());
             
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Alterado Com sucesso.");
