@@ -38,7 +38,6 @@ public class ClienteDAO {
     }
     public void update(int id,String nome,String email,String telefone,String celular){
         PreparedStatement stmt = null;
-        Cliente c = new Cliente();
         
         try {
             stmt = con.prepareStatement("UPDATE Cliente SET nome_cli=?,email_cli=?,telefone_cli=?,celular_cli=? WHERE id_cli = ?");
