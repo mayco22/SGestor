@@ -5,7 +5,7 @@
  */
 package view;
 
-import javax.swing.JLabel;
+
 
 /**
  *
@@ -20,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,15 +56,15 @@ public class Principal extends javax.swing.JFrame {
         paneLayout.setHorizontalGroup(
             paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLayout.createSequentialGroup()
-                .addContainerGap(841, Short.MAX_VALUE)
-                .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(751, Short.MAX_VALUE)
+                .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         paneLayout.setVerticalGroup(
             paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLayout.createSequentialGroup()
-                .addContainerGap(488, Short.MAX_VALUE)
-                .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(433, Short.MAX_VALUE)
+                .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

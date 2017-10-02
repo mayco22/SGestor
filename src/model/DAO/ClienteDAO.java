@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.bean.Cliente;
 
 /**
@@ -81,8 +82,20 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    public void delete(){
+    public void delete(Cliente c){
+        PreparedStatement stmt= null;
         
+        try {
+            stmt = con.prepareStatement("DELETE FROM Cliente WHERE id_cli =?");
+            stmt.setInt(1, c.getId());
+            
+            stmt.execute();
+            JOptionPane.showMessageDialog(null, "Deletado com Sucesso!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
     }
     
 }
