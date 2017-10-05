@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.bean.Cliente;
 import model.bean.Servico;
 
 /**
@@ -59,10 +60,20 @@ public class ServicoDAO {
             JOptionPane.showMessageDialog(null, "Erro:"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
-            return null;
         }
+            return null;
     }
-    public void delete(){
-        
+    public void delete(Cliente c){
+        PreparedStatement stmt;
+        Connection con = null;
+        try {
+            stmt = con.prepareStatement("DELETE FROM Cliente where id_cli = ?");
+            stmt.setInt(1, c.getId());
+            
+            stmt.execute();
+        } catch (SQLException e) {
+            
+            JOptionPane.showMessageDialog(null, "erro:"+e);
+        }
     }
 }

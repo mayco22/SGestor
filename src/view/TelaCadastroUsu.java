@@ -176,7 +176,6 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
             return;
         }
         JOptionPane.showMessageDialog(null, "Selecione o perfil.");
-        return;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cbperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbperfilActionPerformed
@@ -199,11 +198,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         }
         if(i == 0){
             JOptionPane.showMessageDialog(null, "Usuario não encontrado ou não existe!");
+            txtnome.setText("");
+            txtsenha.setText("");
+            cbperfil.setSelectedItem("Selecione");
         }
         
-        txtnome.setText("");
-        txtsenha.setText("");
-        cbperfil.setSelectedItem("Selecione");
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

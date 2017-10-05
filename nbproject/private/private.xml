@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/view/Principal.java</file>
             <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/view/CadastroCliente.java</file>
+            <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/model/bean/Ordemservico.java</file>
             <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/model/DAO/ClienteDAO.java</file>
-            <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/view/ListarContatos.java</file>
-            <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/model/DAO/ServicoDAO.java</file>
+            <file>file:/C:/Users/may_c/Documents/GitHub/SGestor/Sgestor/src/model/DAO/OrdemServicoDAO.java</file>
         </group>
     </open-files>
 </project-private>

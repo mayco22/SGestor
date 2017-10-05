@@ -17,11 +17,11 @@ import model.bean.Cliente;
  * @author mayco
  */
 public class ClienteDAO {
-    Connection con = ConnectionFactory.getConnection();
+    
     
     public void Create(Cliente c ){
         PreparedStatement stmt = null;
-        
+        Connection con = ConnectionFactory.getConnection();
         try {
             stmt = con.prepareStatement("INSERT INTO Cliente(nome_cli,email_cli,telefone_cli,celular_cli) VALUES (?,?,?,?)");
             stmt.setString(1, c.getNome());
@@ -30,8 +30,9 @@ public class ClienteDAO {
             stmt.setString(4, c.getCelular());
             
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Criado com Sucesso!");
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "erro:"+ex);
         }
         finally{
             ConnectionFactory.closeConnection(con, stmt);
@@ -39,7 +40,7 @@ public class ClienteDAO {
     }
     public void update(int id,String nome,String email,String telefone,String celular){
         PreparedStatement stmt = null;
-        
+        Connection con = ConnectionFactory.getConnection();
         try {
             stmt = con.prepareStatement("UPDATE Cliente SET nome_cli=?,email_cli=?,telefone_cli=?,celular_cli=? WHERE id_cli = ?");
             stmt.setString(1, nome);
@@ -49,14 +50,16 @@ public class ClienteDAO {
             stmt.setInt(5, id);
             
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException e) {
-            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "erro:"+e);        
         }
         finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
     public List<Cliente> read(){
+        Connection con = ConnectionFactory.getConnection();
         List<Cliente> l = new ArrayList<>();
         PreparedStatement stmt =null;
         ResultSet rs = null;
@@ -77,14 +80,15 @@ public class ClienteDAO {
             }
             return l;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, "erro:"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        return null;
     }
     public void delete(Cliente c){
         PreparedStatement stmt= null;
-        
+        Connection con = ConnectionFactory.getConnection();
         try {
             stmt = con.prepareStatement("DELETE FROM Cliente WHERE id_cli =?");
             stmt.setInt(1, c.getId());
