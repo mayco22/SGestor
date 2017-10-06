@@ -41,6 +41,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
 
         jLabel1.setText("Nome:");
 

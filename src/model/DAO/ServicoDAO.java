@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import model.bean.Cliente;
 import model.bean.Servico;
 
 /**
@@ -19,8 +18,7 @@ public class ServicoDAO {
     
     public void create(Servico s){
         Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt;
-        stmt = null;
+        PreparedStatement stmt = null;
         
         try {
             
@@ -39,10 +37,9 @@ public class ServicoDAO {
     public List<Servico> read(){
         List<Servico> S = new ArrayList<>();
         Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt;
-        ResultSet rs; 
-        stmt = null;
-        rs = null;
+        PreparedStatement stmt =null;
+        ResultSet rs = null; 
+        
         try {
             stmt = con.prepareStatement("SELECT * FROM servico");
             rs = stmt.executeQuery();
@@ -61,19 +58,21 @@ public class ServicoDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-            return null;
+        return null;
     }
-    public void delete(Cliente c){
-        PreparedStatement stmt;
-        Connection con = null;
+    public void delete(Servico s){
+        PreparedStatement stmt = null;
+        Connection con = ConnectionFactory.getConnection();
         try {
-            stmt = con.prepareStatement("DELETE FROM Cliente where id_cli = ?");
-            stmt.setInt(1, c.getId());
+            stmt = con.prepareStatement("DELETE FROM servico where id_ser = ?");
+            stmt.setInt(1, s.getId());
             
             stmt.execute();
         } catch (SQLException e) {
             
             JOptionPane.showMessageDialog(null, "erro:"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 }

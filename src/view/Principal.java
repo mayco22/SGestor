@@ -106,7 +106,12 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu4.setText("Serviço");
 
-        jMenuItem4.setText("cadastro");
+        jMenuItem4.setText("Criar");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem4);
 
         jMenuBar1.add(jMenu4);
@@ -147,7 +152,15 @@ public class Principal extends javax.swing.JFrame {
         ListarContatos l = new ListarContatos();
         pane.add(l);
         l.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        criarServico c = new criarServico();
+        pane.add(c);
+        c.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,6 +211,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lblhora;
     private javax.swing.JDesktopPane pane;
     // End of variables declaration//GEN-END:variables
-
+    
+    
     
 }

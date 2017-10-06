@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.bean.Cliente;
 
@@ -38,16 +36,16 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    public void update(int id,String nome,String email,String telefone,String celular){
+    public void update(Cliente c){
         PreparedStatement stmt = null;
         Connection con = ConnectionFactory.getConnection();
         try {
             stmt = con.prepareStatement("UPDATE Cliente SET nome_cli=?,email_cli=?,telefone_cli=?,celular_cli=? WHERE id_cli = ?");
-            stmt.setString(1, nome);
-            stmt.setString(2, email);
-            stmt.setString(3, telefone);
-            stmt.setString(4, celular);
-            stmt.setInt(5, id);
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getEmail());
+            stmt.setString(3, c.getTelefone());
+            stmt.setString(4, c.getCelular());
+            stmt.setInt(5, c.getId());
             
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
