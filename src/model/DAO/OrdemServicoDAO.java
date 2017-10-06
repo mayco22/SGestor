@@ -17,7 +17,7 @@ public class OrdemServicoDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO ");
+            stmt = con.prepareStatement("INSERT INTO OrdemServico VALUES()");
             stmt.setInt(0, o.getId());
             stmt.execute();
             

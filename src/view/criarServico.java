@@ -106,6 +106,8 @@ public class criarServico extends javax.swing.JInternalFrame {
         s.setNome(txtnome.getText());
         
         sd.create(s);
+        
+        txtnome.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
