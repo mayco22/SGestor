@@ -7,29 +7,35 @@ package view;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Cliente;
 import model.DAO.ClienteDAO;
+import model.DAO.OrdemServicoDAO;
 import model.DAO.ServicoDAO;
+import model.bean.Ordemservico;
 import model.bean.Servico;
 
 /**
  *
  * @author mayco
  */
-public class Ordemservico extends javax.swing.JInternalFrame {
+public class telaOrdemservico extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Ordemservico
      */
-    public Ordemservico() {
+    public telaOrdemservico() {
         initComponents();
         txtnumero.setEditable(false);
         txtdata.setEditable(false);
         mostrarT();
         mostraC();
         txtdata.setText(getDateTime());
+        gerarservico();
     }
 
     /**
@@ -49,11 +55,11 @@ public class Ordemservico extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtnumero = new javax.swing.JTextField();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         txtdata = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        txtvalor = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -73,8 +79,6 @@ public class Ordemservico extends javax.swing.JInternalFrame {
                 txtnumeroActionPerformed(evt);
             }
         });
-
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
 
         try {
             txtdata.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -116,11 +120,11 @@ public class Ordemservico extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtnumero))
+                            .addComponent(txtnumero, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                            .addComponent(txtvalor))
                         .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -151,8 +155,8 @@ public class Ordemservico extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtdata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtdata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtvalor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -190,12 +194,45 @@ public class Ordemservico extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
+        List<Cliente> lista1 = new ArrayList<>(); 
+        List<Servico> lista2 = new ArrayList<>(); 
+        Ordemservico o = new Ordemservico();
+        OrdemServicoDAO od = new OrdemServicoDAO();
+        ClienteDAO cd = new ClienteDAO();
+        ServicoDAO sd = new ServicoDAO();
+        
+        try{
+            int po = jTable1.getSelectedRow();
+            String nome = jTable1.getValueAt(po, 0).toString();
+            String data = txtdata.getText();
+            String valor = txtvalor.getText();
+            String servico = (String) jcservico.getSelectedItem();
+            
+            for(Cliente c :cd.read()){
+                if (c.getNome().equals(nome)) {
+                    lista1 = (List<Cliente>) c;
+                }
+            }
+            for(Servico s :sd.read()){
+                if (s.getNome().equals(servico)) {
+                    lista2 = (List<Servico>) s;
+                }
+            }
+            o.setCli((Cliente) lista1);
+            o.setDate(data);
+            o.setSer((Servico) lista2);
+            o.setValor(Double.parseDouble(valor));
+
+            od.create(o);
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "erro:"+e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -207,6 +244,7 @@ public class Ordemservico extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcservico;
     private javax.swing.JFormattedTextField txtdata;
     private javax.swing.JTextField txtnumero;
+    private javax.swing.JTextField txtvalor;
     // End of variables declaration//GEN-END:variables
 
     private void mostraC() {
@@ -233,5 +271,13 @@ public class Ordemservico extends javax.swing.JInternalFrame {
 	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 	Date date = new Date(); 
 	return dateFormat.format(date); 
+    }
+    private void gerarservico(){
+        OrdemServicoDAO od = new OrdemServicoDAO();
+        int pedido = 0;
+        for(Ordemservico o : od.Read()){
+            pedido = (o.getId());
+        }
+        txtnumero.setText(String.valueOf(pedido+1));
     }
 }
