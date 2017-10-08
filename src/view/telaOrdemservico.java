@@ -193,9 +193,8 @@ public class telaOrdemservico extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        List<Cliente> lista1 = new ArrayList<>(); 
-        List<Servico> lista2 = new ArrayList<>(); 
+        Cliente b = new Cliente();
+        Servico j = new Servico();
         Ordemservico o = new Ordemservico();
         OrdemServicoDAO od = new OrdemServicoDAO();
         ClienteDAO cd = new ClienteDAO();
@@ -210,17 +209,22 @@ public class telaOrdemservico extends javax.swing.JInternalFrame {
             
             for(Cliente c :cd.read()){
                 if (c.getNome().equals(nome)) {
-                    lista1 = (List<Cliente>) c;
+                    b.setNome(c.getNome());
+                    b.setId(c.getId());
+                    b.setEmail(c.getEmail());
+                    b.setTelefone(c.getTelefone());
+                    b.setCelular(c.getCelular());
                 }
             }
             for(Servico s :sd.read()){
                 if (s.getNome().equals(servico)) {
-                    lista2 = (List<Servico>) s;
+                    j.setId(s.getId());
+                    j.setNome(s.getNome());
                 }
             }
-            o.setCli((Cliente) lista1);
+            o.setCli(b);
             o.setDate(data);
-            o.setSer((Servico) lista2);
+            o.setSer(j);
             o.setValor(Double.parseDouble(valor));
 
             od.create(o);
