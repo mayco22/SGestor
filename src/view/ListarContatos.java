@@ -144,6 +144,8 @@ public class ListarContatos extends javax.swing.JInternalFrame {
                 cd.delete(c);
         }
         modelo.removeRow(po);
+        limpaTabela();
+        readTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -159,7 +161,14 @@ public class ListarContatos extends javax.swing.JInternalFrame {
         a.atualizarcli(nome);
       
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    public void limpaTabela(){
+        DefaultTableModel tblRemove = (DefaultTableModel)jTablecontatos.getModel();
+        if (tblRemove.getRowCount() > 0){
+            for (int i=1;i<=tblRemove.getRowCount();i++){
+                tblRemove.removeRow(i);
+            }            
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -44,6 +44,8 @@ public class OrdemServicoDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        ClienteDAO cd = new ClienteDAO();
+        ServicoDAO sd = new ServicoDAO();
         
         try {
             stmt = con.prepareStatement("SELECT * FROM OrdemServico");
@@ -53,9 +55,17 @@ public class OrdemServicoDAO {
                 Ordemservico o = new Ordemservico();
                 o.setId(rs.getInt("id_or"));
                 o.setDate(rs.getString("dataservico"));
-                c.setId(rs.getInt("id_cli_or"));
+                for (Cliente cs : cd.read()) {
+                    if (rs.getInt("id_cli_or") == cs.getId()) {
+                        c = cs;
+                    }
+                }
                 o.setCli(c);
-                s.setId(rs.getInt("id_ser_or"));
+                for (Servico ss : sd.read()) {
+                    if (rs.getInt("id_ser_or") == ss.getId()) {
+                        s = ss;
+                    }
+                }
                 o.setSer(s);
                 o.setValor(rs.getDouble("valor"));
                 l.add(o);
