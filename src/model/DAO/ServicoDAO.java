@@ -68,8 +68,8 @@ public class ServicoDAO {
             stmt.setInt(1, s.getId());
             
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Deletado com sucesso!");
         } catch (SQLException e) {
-            
             JOptionPane.showMessageDialog(null, "erro:"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
