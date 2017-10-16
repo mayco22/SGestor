@@ -23,11 +23,10 @@ public class OrdemServicoDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO OrdemServico(dataservico,valor,id_cli_or,id_ser_or) VALUES(?,?,?,?)");
-            stmt.setString(1, o.getDate());
-            stmt.setDouble(2, o.getValor());
-            stmt.setInt(3, o.getCli().getId());
-            stmt.setInt(4, o.getSer().getId());
+            stmt = con.prepareStatement("INSERT INTO OrdemServico(valor,id_cli_or,id_ser_or) VALUES(?,?,?)");
+            stmt.setDouble(1, o.getValor());
+            stmt.setInt(2, o.getCli().getId());
+            stmt.setInt(3, o.getSer().getId());
             stmt.execute();
             
             JOptionPane.showMessageDialog(null, "Gravado com sucesso.");

@@ -203,7 +203,6 @@ public class telaOrdemservico extends javax.swing.JInternalFrame {
         try{
             int po = jTable1.getSelectedRow();
             String nome = jTable1.getValueAt(po, 0).toString();
-            String data = txtdata.getText();
             String valor = txtvalor.getText();
             String servico = (String) jcservico.getSelectedItem();
             
@@ -223,7 +222,6 @@ public class telaOrdemservico extends javax.swing.JInternalFrame {
                 }
             }
             o.setCli(b);
-            o.setDate(data);
             o.setSer(j);
             o.setValor(Double.parseDouble(valor));
 

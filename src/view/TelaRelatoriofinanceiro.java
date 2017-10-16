@@ -5,6 +5,17 @@
  */
 package view;
 
+import Connection.ConnectionFactory;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.DAO.ClienteDAO;
 import model.DAO.OrdemServicoDAO;
@@ -23,7 +34,8 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
      */
     public TelaRelatoriofinanceiro() {
         initComponents();
-        prencherT();
+        preencherT();
+        RendaMensal();
     }
 
     /**
@@ -55,6 +67,8 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(204, 204, 204));
+        setClosable(true);
+        setIconifiable(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -165,7 +179,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         jPanel4.setBackground(new java.awt.Color(0, 204, 0));
 
         jLabel4.setBackground(new java.awt.Color(69, 207, 23));
-        jLabel4.setDisplayedMnemonic(30);
+        jLabel4.setDisplayedMnemonic('\u001e');
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Renda Mensal");
@@ -209,7 +223,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         jPanel6.setPreferredSize(new java.awt.Dimension(245, 25));
 
         jLabel7.setBackground(new java.awt.Color(69, 207, 23));
-        jLabel7.setDisplayedMnemonic(30);
+        jLabel7.setDisplayedMnemonic('\u001e');
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Renda Pesquisada");
@@ -264,9 +278,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -305,7 +317,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField termino;
     // End of variables declaration//GEN-END:variables
 
-    private void prencherT() {
+    private void preencherT() {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         OrdemServicoDAO od = new OrdemServicoDAO();
         
@@ -318,4 +330,29 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
             });
         }
     }
+
+    private void RendaMensal() {
+        double soma=0;
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement("select * from ordemservico where strftime('%m',dataservico) = strftime('%m','now')");
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                soma += rs.getDouble("valor");
+            }
+            
+            lblmensal.setText("R$"+String.valueOf(soma));
+        
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro:"+ex);
+        }
+        finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    
 }
