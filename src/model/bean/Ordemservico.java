@@ -1,5 +1,7 @@
 package model.bean;
 
+import java.util.Date;
+
 /**
  *
  * @author mayco
@@ -8,7 +10,7 @@ public class Ordemservico {
     private int id;
     private Cliente cli;
     private Servico ser;
-    private String date;
+    private Date date;
     private double valor;
 
     public int getId() {
@@ -35,11 +37,11 @@ public class Ordemservico {
         this.ser = ser;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
