@@ -53,7 +53,7 @@ public class OrdemServicoDAO {
             while(rs.next()){
                 Ordemservico o = new Ordemservico();
                 o.setId(rs.getInt("id_or"));
-                o.setDate(rs.getDate("dataservico"));
+                o.setDate(rs.getString("dataservico"));
                 for (Cliente cs : cd.read()) {
                     if (rs.getInt("id_cli_or") == cs.getId()) {
                         c = cs;

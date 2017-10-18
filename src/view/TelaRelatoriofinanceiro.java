@@ -298,7 +298,8 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         Cliente c = new Cliente();
         ClienteDAO cd = new ClienteDAO();
         float valor = 0;
-        
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-mm-dd");
+
         try {
             if(dataInicio.getDate()!= null && dataTermino.getDate() != null){
                 stmt = con.prepareStatement("select  * from ordemservico WHERE dataservico >= '?' and dataservico <= '?'");
@@ -309,7 +310,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                 while(rs.next()){
 
                     o.setId(rs.getInt("id_or"));
-                    o.setDate(rs.getDate("dataservico"));
+                    o.setDate(rs.getString("dataservico"));
                     for (Cliente cs : cd.read()) {
                         if (rs.getInt("id_cli_or") == cs.getId()) {
                             c = cs;
@@ -326,6 +327,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                     valor += rs.getDouble("valor");
                     l.add(o);
                 }
+                
                 lblpesquisada.setText("R$"+String.valueOf(valor));
             }else
                JOptionPane.showMessageDialog(null, "Algum campo nao está com data.");
@@ -370,7 +372,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[]{
                 o.getCli().getNome(),
                 o.getSer().getNome(),
-                o.getDate().toString(),
+                o.getDate(),
                 o.getValor()
             });
         }

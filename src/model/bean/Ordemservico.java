@@ -10,7 +10,7 @@ public class Ordemservico {
     private int id;
     private Cliente cli;
     private Servico ser;
-    private Date date;
+    private String date;
     private double valor;
 
     public int getId() {
@@ -37,11 +37,11 @@ public class Ordemservico {
         this.ser = ser;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
