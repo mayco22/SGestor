@@ -78,4 +78,88 @@ public class OrdemServicoDAO {
         }
         return null;
     }
+    public List<Ordemservico> Read2(){
+        List<Ordemservico> l = new ArrayList<>();
+        Cliente c = new Cliente();
+        Servico s = new Servico();
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ClienteDAO cd = new ClienteDAO();
+        ServicoDAO sd = new ServicoDAO();
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM OrdemServico where strftime('%m',dataservico) = strftime('%m','now')");
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Ordemservico o = new Ordemservico();
+                o.setId(rs.getInt("id_or"));
+                o.setDate(rs.getString("dataservico"));
+                for (Cliente cs : cd.read()) {
+                    if (rs.getInt("id_cli_or") == cs.getId()) {
+                        c = cs;
+                    }
+                }
+                o.setCli(c);
+                for (Servico ss : sd.read()) {
+                    if (rs.getInt("id_ser_or") == ss.getId()) {
+                        s = ss;
+                    }
+                }
+                o.setSer(s);
+                o.setValor(rs.getDouble("valor"));
+                l.add(o);
+            }
+            return l;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "erro:"+e);
+        }
+        finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return null;
+    }
+    public List<Ordemservico> Read3(String a,String b){
+        List<Ordemservico> l = new ArrayList<>();
+        Cliente c = new Cliente();
+        Servico s = new Servico();
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ClienteDAO cd = new ClienteDAO();
+        ServicoDAO sd = new ServicoDAO();
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM OrdemServico where strftime('%m',dataservico) = strftime('%m','now')");
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Ordemservico o = new Ordemservico();
+                o.setId(rs.getInt("id_or"));
+                o.setDate(rs.getString("dataservico"));
+                for (Cliente cs : cd.read()) {
+                    if (rs.getInt("id_cli_or") == cs.getId()) {
+                        c = cs;
+                    }
+                }
+                o.setCli(c);
+                for (Servico ss : sd.read()) {
+                    if (rs.getInt("id_ser_or") == ss.getId()) {
+                        s = ss;
+                    }
+                }
+                o.setSer(s);
+                o.setValor(rs.getDouble("valor"));
+                l.add(o);
+            }
+            return l;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "erro:"+e);
+        }
+        finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return null;
+    }
 }

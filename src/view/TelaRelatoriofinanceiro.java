@@ -12,12 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.DAO.ClienteDAO;
@@ -115,19 +110,23 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                 .addGap(45, 45, 45)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel3))
-                    .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel3)))
+                        .addGap(21, 21, 21))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +252,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -288,58 +287,44 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        OrdemServicoDAO od = new OrdemServicoDAO();
         List<Ordemservico> l = new ArrayList<>();
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
         Ordemservico o = new Ordemservico();
-        Servico s = new Servico();
-        ServicoDAO sd = new ServicoDAO();
-        Cliente c = new Cliente();
-        ClienteDAO cd = new ClienteDAO();
         float valor = 0;
-        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-mm-dd");
-
+        String data1=f.format(dataInicio.getDate()),data2=f.format(dataTermino.getDate());
         try {
-            if(dataInicio.getDate()!= null && dataTermino.getDate() != null){
-                stmt = con.prepareStatement("select  * from ordemservico WHERE dataservico >= '?' and dataservico <= '?'");
-                stmt.setDate(1, (java.sql.Date) dataInicio.getDate());
-                stmt.setDate(2, (java.sql.Date) dataTermino.getDate());
-                rs = stmt.executeQuery();
 
-                while(rs.next()){
+            stmt = con.prepareStatement("SELECT * FROM ordemservico WHERE dataservico "+
+                    "BETWEEN ? AND ?");
+            stmt.setString(1, f.format(dataInicio.getDate()));
+            stmt.setString(2, f.format(dataTermino.getDate()));
+            rs = stmt.executeQuery();
 
-                    o.setId(rs.getInt("id_or"));
-                    o.setDate(rs.getString("dataservico"));
-                    for (Cliente cs : cd.read()) {
-                        if (rs.getInt("id_cli_or") == cs.getId()) {
-                            c = cs;
-                        }
-                    }
-                    o.setCli(c);
-                    for (Servico ss : sd.read()) {
-                        if (rs.getInt("id_ser_or") == ss.getId()) {
-                            s = ss;
-                        }
-                    }
-                    o.setSer(s);
-                    o.setValor(rs.getDouble("valor"));
-                    valor += rs.getDouble("valor");
-                    l.add(o);
-                }
-                
-                lblpesquisada.setText("R$"+String.valueOf(valor));
-            }else
-               JOptionPane.showMessageDialog(null, "Algum campo nao está com data.");
-            
+            while (rs.next()) {
+               o.setValor(rs.getDouble("valor"));
+               valor += o.getValor();
+            }
+            limpar();
+            l = od.Read3(data1, data2);
+            for (Ordemservico os : l) {
+                modelo.addRow(new Object[]{
+                os.getCli().getNome(),
+                os.getSer().getNome(),
+                os.getDate(),
+                os.getValor()
+                });
+            }
+            lblpesquisada.setText("R$" + String.valueOf(valor));
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro:"+e);
-        }finally{
+            JOptionPane.showMessageDialog(null, "Erro:" + e);
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -367,8 +352,8 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
     private void preencherT() {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         OrdemServicoDAO od = new OrdemServicoDAO();
-        
-        for(Ordemservico o : od.Read()) {
+
+        for (Ordemservico o : od.Read2()) {
             modelo.addRow(new Object[]{
                 o.getCli().getNome(),
                 o.getSer().getNome(),
@@ -379,27 +364,30 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
     }
 
     private void RendaMensal() {
-        double soma=0;
+        double soma = 0;
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = con.prepareStatement("select * from ordemservico where strftime('%m',dataservico) = strftime('%m','now')");
             rs = stmt.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 soma += rs.getDouble("valor");
             }
-            
-            lblmensal.setText("R$"+String.valueOf(soma));
-        
+            lblmensal.setText("R$" + String.valueOf(soma));
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro:"+ex);
-        }
-        finally{
+            JOptionPane.showMessageDialog(null, "Erro:" + ex);
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+    public void limpar(){
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        while(modelo.getRowCount() > 0){
+            modelo.removeRow(0);
+        }
+    }
 
-    
 }
