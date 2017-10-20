@@ -131,7 +131,10 @@ public class OrdemServicoDAO {
         ServicoDAO sd = new ServicoDAO();
         
         try {
-            stmt = con.prepareStatement("SELECT * FROM OrdemServico where strftime('%m',dataservico) = strftime('%m','now')");
+            stmt = con.prepareStatement("SELECT * FROM OrdemServico WHERE dataservico BETWEEN ? AND ? ORDER BY dataservico");
+            stmt.setString(1, a);
+            stmt.setString(2, b);
+            
             rs = stmt.executeQuery();
             
             while(rs.next()){

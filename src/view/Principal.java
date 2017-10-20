@@ -41,9 +41,8 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
 
@@ -71,9 +70,11 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        cadasus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/user_suit.png"))); // NOI18N
         cadasus.setText("Usuario");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/add.png"))); // NOI18N
         jMenuItem1.setText("Cadastro");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,8 +85,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(cadasus);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/user.png"))); // NOI18N
         jMenu3.setText("Cliente");
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/user_add.png"))); // NOI18N
         jMenuItem3.setText("Cadastro");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +97,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem3);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/application_view_detail.png"))); // NOI18N
         jMenuItem2.setText("Lista de Contatos");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,8 +108,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/report.png"))); // NOI18N
         jMenu4.setText("Serviço");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/report_add.png"))); // NOI18N
         jMenuItem4.setText("Criar Serviço");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +120,17 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem4);
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/report_edit.png"))); // NOI18N
+        jMenuItem6.setText("Criar Ordem");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/report_delete.png"))); // NOI18N
         jMenuItem5.setText("Excluir Serviço");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,21 +141,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setText("Ordem Serviço");
-
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem6.setText("Criar");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem6);
-
-        jMenuBar1.add(jMenu5);
-
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/book.png"))); // NOI18N
         jMenu1.setText("Relatórios");
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/book_edit.png"))); // NOI18N
         jMenuItem7.setText("Financeiro");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,7 +257,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
