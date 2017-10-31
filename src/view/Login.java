@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.awt.HeadlessException;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -38,7 +41,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnlogar = new javax.swing.JButton();
         txtnome = new javax.swing.JTextField();
         txtsenha = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
@@ -54,16 +57,32 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Senha:");
 
-        jButton1.setText("Logar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnlogar.setText("Logar");
+        btnlogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnlogarActionPerformed(evt);
+            }
+        });
+        btnlogar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnlogarKeyPressed(evt);
+            }
+        });
+
+        txtnome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtnomeKeyPressed(evt);
             }
         });
 
         txtsenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtsenhaActionPerformed(evt);
+            }
+        });
+        txtsenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtsenhaKeyPressed(evt);
             }
         });
 
@@ -84,7 +103,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnlogar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtsenha, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                             .addComponent(txtnome))))
@@ -104,7 +123,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnlogar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68))
         );
 
@@ -133,43 +152,47 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtsenhaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnlogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlogarActionPerformed
         Principal p = new Principal();
-        Usuario u = new Usuario();
         UsuarioDAO usu = new UsuarioDAO();
         List<Usuario> l = new ArrayList<>();
-        
-        l = usu.read();
-        boolean enter = false;
-        u.setNome(txtnome.getText());
-        u.setSenha(txtsenha.getText());
-        
+        String login = txtnome.getText(),senha = txtsenha.getText();
         try{
-            for(Usuario us : l){
-                if (u.getNome().equals(us.getNome()) && u.getSenha().equals(us.getSenha())) {
-                    u.setPerfil(us.getPerfil());
-                    enter = true;
-                }
-            }
-            if (enter == true) {
-                if(u.getPerfil().equals("admin")){
-                    p.setVisible(true);
-                    dispose();
-                }
-                if(u.getPerfil().equals("funcionario")){
-                    p.setVisible(true);
-                    //p.cadasus.setVisible(false);
-                    dispose();
+            l = usu.autenticacao(login, senha);
+            if (!l.isEmpty()) {
+                for (Usuario u :l) {
+                    if (u.getNome().equals(login) && u.getSenha().equals(senha)) {
+                        p.setVisible(true);
+                        dispose();
+                    }
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "Usuario ou senha nao existem.");
-                return;
+                JOptionPane.showMessageDialog(null, "Login ou senha incorreta.");
+                txtsenha.setText("");
             }
-            
-        }catch(Exception e){
-           throw new RuntimeException(e);
+        }catch(HeadlessException e){
+           JOptionPane.showMessageDialog(null, "Erro: "+e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnlogarActionPerformed
+
+    private void btnlogarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnlogarKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnlogarKeyPressed
+
+    private void txtsenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsenhaKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnlogar.doClick();
+        }
+    }//GEN-LAST:event_txtsenhaKeyPressed
+
+    private void txtnomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnomeKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnlogar.doClick();
+        }
+    }//GEN-LAST:event_txtnomeKeyPressed
 
     /**
      * @param args the command line arguments
@@ -210,7 +233,7 @@ public class Login extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnlogar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

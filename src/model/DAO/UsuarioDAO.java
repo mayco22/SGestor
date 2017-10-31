@@ -97,4 +97,31 @@ public class UsuarioDAO {
         }
         
     }
+    public List<Usuario> autenticacao(String nome,String senha){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Usuario> l = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM usuario WHERE nome = ? AND senha = ?");
+            stmt.setString(1, nome);
+            stmt.setString(2, senha);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setPerfil(rs.getString("perfil"));
+                
+                l.add(usuario);
+            }
+            return l;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return null;
+    }
 }

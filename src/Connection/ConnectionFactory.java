@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,11 +16,10 @@ public class ConnectionFactory {
     private static Connection con = null;
     public static Connection getConnection(){
         try {
-            String url ="jdbc:sqlite:SGestor_DB.db";
-            con = DriverManager.getConnection(url);
+            con = DriverManager.getConnection("jdbc:sqlite:SGestor_DB.db");
             return con;
         } catch (SQLException e) {
-            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
             return null;
         }
     }
@@ -29,7 +29,7 @@ public class ConnectionFactory {
                 con.close();
             }
         }catch(SQLException e){
-            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
         }
     }
     public static void closeConnection(Connection con,PreparedStatement stmt){
@@ -38,7 +38,7 @@ public class ConnectionFactory {
                 stmt.close();
             }
         }catch(SQLException e){
-            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
         }
         closeConnection(con);
     }
@@ -48,7 +48,7 @@ public class ConnectionFactory {
                 rs.close();
             }
         }catch(SQLException e){
-            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Erro: "+e);
         }
         closeConnection(con,stmt);
     }
