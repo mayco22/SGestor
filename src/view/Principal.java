@@ -57,7 +57,7 @@ public class Principal extends javax.swing.JFrame {
         paneLayout.setHorizontalGroup(
             paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLayout.createSequentialGroup()
-                .addContainerGap(751, Short.MAX_VALUE)
+                .addContainerGap(731, Short.MAX_VALUE)
                 .addComponent(lblhora, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -69,6 +69,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(298, 45));
 
         cadasus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/icons 1/user_suit.png"))); // NOI18N
@@ -153,7 +154,10 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pane)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
