@@ -5,8 +5,11 @@
  */
 package view;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
 import model.bean.Usuario;
@@ -195,7 +198,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
             u.setNome(txtnome.getText());
             u.setSenha(txtsenha.getText());
             u.setPerfil((String) cbperfil.getSelectedItem());
-            ud.create(u);
+            try {
+                ud.create(u);
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             txtnome.setText("");
             txtsenha.setText("");
             cbperfil.setSelectedItem("Selecione");
@@ -212,7 +219,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         UsuarioDAO u = new UsuarioDAO();
         List<Usuario> lista = new ArrayList<>();
         int i =0;
-        lista = u.read();
+        try {
+            lista = u.read();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         for(Usuario usu : lista){
             if (usu.getNome().equals(txtnome.getText())) {
@@ -236,7 +247,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         Usuario u = new Usuario();
         UsuarioDAO UD = new UsuarioDAO();
         List<Usuario> l = new ArrayList<>();
-        l = UD.read();
+        try {
+            l = UD.read();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int id=0;
         for(Usuario usu : l){
             if (txtnome.getText().equals(usu.getNome())) {
@@ -250,7 +265,11 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         u.setSenha(txtsenha.getText());
         u.setPerfil((String) cbperfil.getSelectedItem());
         u.setId(id);
-        UD.update(u);
+        try {
+            UD.update(u);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         txtnome.setText("");
         txtsenha.setText("");
@@ -262,13 +281,21 @@ public class TelaCadastroUsu extends javax.swing.JInternalFrame {
         UsuarioDAO h = new UsuarioDAO();
         List<Usuario> l = new ArrayList<>();
         int id=0;
-        l = h.read();
+        try {
+            l = h.read();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (Usuario u : l) {
             if (txtnome.getText().equals(u.getNome())) {
                 id = u.getId();
             }
         }
-        h.delete(id);
+        try {
+            h.delete(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastroUsu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         txtnome.setText("");
         txtsenha.setText("");

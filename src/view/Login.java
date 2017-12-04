@@ -6,10 +6,11 @@
 package view;
 
 import java.awt.HeadlessException;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.DAO.UsuarioDAO;
-import model.bean.Usuario;
 
 /**
  *
@@ -182,14 +183,14 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Principal p = new Principal();
         UsuarioDAO usu = new UsuarioDAO();
-        List<Usuario> l;
+        int l;
         try{
             String nome = txtnome.getText();
             String senha = new String(txtsenha.getPassword());
             
             l =  usu.autenticacao(nome, senha);
             
-            if(!l.isEmpty()){
+            if(l == 1){
                 p.setVisible(true);
                 this.dispose();
             }else{
@@ -199,6 +200,8 @@ public class Login extends javax.swing.JFrame {
             }
         }catch(HeadlessException e){
             throw new RuntimeException(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -5,7 +5,7 @@
  */
 package view;
 
-import Connection.ConnectionFactory;
+import Connection.ConnectionSQlServer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,12 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.DAO.ClienteDAO;
 import model.DAO.OrdemServicoDAO;
-import model.DAO.ServicoDAO;
-import model.bean.Cliente;
 import model.bean.Ordemservico;
-import model.bean.Servico;
 
 /**
  *
@@ -30,8 +26,9 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form TelaRelatoriofinanceiro
+     * @throws java.sql.SQLException
      */
-    public TelaRelatoriofinanceiro() {
+    public TelaRelatoriofinanceiro() throws SQLException {
         initComponents();
         preencherT();
         RendaMensal();
@@ -95,6 +92,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Data de término");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton1.setText("Filtrar por data");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,32 +105,29 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dataTermino, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(dataInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3)
-                    .addComponent(dataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18))
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -241,9 +236,9 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -251,7 +246,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
@@ -266,7 +261,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,17 +276,18 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         OrdemServicoDAO od = new OrdemServicoDAO();
         List<Ordemservico> l = new ArrayList<>();
-        Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
         Ordemservico o = new Ordemservico();
         float valor = 0;
         String data1=f.format(dataInicio.getDate()),data2=f.format(dataTermino.getDate());
+        Connection con = null;
         try {
+            con = ConnectionSQlServer.getConnection();
 
             stmt = con.prepareStatement("SELECT * FROM ordemservico WHERE dataservico "+
-                    "BETWEEN ? AND ?");
+                    "BETWEEN ? AND ? WHERE status_or = 0");
             stmt.setString(1, f.format(dataInicio.getDate()));
             stmt.setString(2, f.format(dataTermino.getDate()));
             rs = stmt.executeQuery();
@@ -314,7 +310,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:" + e);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionSQlServer.closeConnection(con, stmt, rs);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -340,7 +336,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblpesquisada;
     // End of variables declaration//GEN-END:variables
 
-    private void preencherT() {
+    private void preencherT() throws SQLException {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         OrdemServicoDAO od = new OrdemServicoDAO();
 
@@ -354,13 +350,13 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         }
     }
 
-    private void RendaMensal() {
+    private void RendaMensal() throws SQLException {
         double soma = 0;
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = con.prepareStatement("select * from ordemservico where strftime('%m',dataservico) = strftime('%m','now')");
+            stmt = con.prepareStatement("select * from OrdemServico where month(dataservico) = month(GETDATE()) AND status_or = 0");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -371,7 +367,7 @@ public class TelaRelatoriofinanceiro extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro:" + ex);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionSQlServer.closeConnection(con, stmt, rs);
         }
     }
     public void limpar(){

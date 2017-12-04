@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.DAO.ClienteDAO;
 import model.bean.Cliente;
 
@@ -157,7 +160,11 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         c.setTelefone(txttelefone.getText());
         c.setCelular(txtcelular.getText());
         
-        cd.Create(c);
+        try {
+            cd.Create(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         txtnome.setText("");
         txtemail.setText("");

@@ -1,6 +1,7 @@
 package model.DAO;
 
 import Connection.ConnectionFactory;
+import Connection.ConnectionSQlServer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +17,8 @@ import model.bean.Servico;
  */
 public class ServicoDAO {
     
-    public void create(Servico s){
-        Connection con = ConnectionFactory.getConnection();
+    public void create(Servico s) throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         
         try {
@@ -31,12 +32,12 @@ public class ServicoDAO {
             JOptionPane.showMessageDialog(null, "Erro:"+e);
         }
         finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
-    public List<Servico> read(){
+    public List<Servico> read() throws SQLException{
         List<Servico> S = new ArrayList<>();
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt =null;
         ResultSet rs = null; 
         
@@ -56,13 +57,13 @@ public class ServicoDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:"+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionSQlServer.closeConnection(con, stmt, rs);
         }
         return null;
     }
-    public void delete(Servico s){
+    public void delete(Servico s) throws SQLException{
         PreparedStatement stmt = null;
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         try {
             stmt = con.prepareStatement("DELETE FROM servico where id_ser = ?");
             stmt.setInt(1, s.getId());
@@ -72,7 +73,7 @@ public class ServicoDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "erro:"+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
 }

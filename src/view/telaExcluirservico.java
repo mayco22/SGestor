@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.DAO.ServicoDAO;
 import model.bean.Servico;
@@ -18,7 +21,7 @@ public class telaExcluirservico extends javax.swing.JInternalFrame {
     /**
      * Creates new form telaExcluirservico
      */
-    public telaExcluirservico() {
+    public telaExcluirservico() throws SQLException {
         initComponents();
         preencherT();
     }
@@ -159,15 +162,27 @@ public class telaExcluirservico extends javax.swing.JInternalFrame {
         int po = jTable1.getSelectedRow();
         String nome = jTable1.getValueAt(po, 0).toString();
         
-        for (Servico v : c.read()) {
-            if(v.getNome().equals(nome)){
-                s.setId(v.getId());
-                s.setNome(v.getNome());
+        try {
+            for (Servico v : c.read()) {
+                if(v.getNome().equals(nome)){
+                    s.setId(v.getId());
+                    s.setNome(v.getNome());
+                }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(telaExcluirservico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        c.delete(s);
+        try {
+            c.delete(s);
+        } catch (SQLException ex) {
+            Logger.getLogger(telaExcluirservico.class.getName()).log(Level.SEVERE, null, ex);
+        }
         limpaTabela();
-        preencherT();
+        try {
+            preencherT();
+        } catch (SQLException ex) {
+            Logger.getLogger(telaExcluirservico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -177,11 +192,19 @@ public class telaExcluirservico extends javax.swing.JInternalFrame {
 
         s.setNome(txtnome.getText());
 
-        sd.create(s);
+        try {
+            sd.create(s);
+        } catch (SQLException ex) {
+            Logger.getLogger(telaExcluirservico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         txtnome.setText("");
         limpaTabela();
-        preencherT();
+        try {
+            preencherT();
+        } catch (SQLException ex) {
+            Logger.getLogger(telaExcluirservico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -195,7 +218,7 @@ public class telaExcluirservico extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtnome;
     // End of variables declaration//GEN-END:variables
-    private void preencherT(){
+    private void preencherT() throws SQLException{
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         
         ServicoDAO c = new ServicoDAO();

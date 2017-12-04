@@ -5,7 +5,9 @@
  */
 package view;
 
-import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.DAO.ClienteDAO;
 import model.bean.Cliente;
 
@@ -161,7 +163,11 @@ public class atualizarcli extends javax.swing.JFrame {
         c.setTelefone(txttelefone.getText());
         c.setCelular(txtcelular.getText());
         
-        cd.update(c);
+        try {
+            cd.update(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(atualizarcli.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -214,7 +220,7 @@ public class atualizarcli extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txttelefone;
     // End of variables declaration//GEN-END:variables
 
-    public void atualizarcli(String nome) {
+    public void atualizarcli(String nome) throws SQLException {
         this.setVisible(true);
         ClienteDAO cd = new ClienteDAO();
         for (Cliente c : cd.read()) {

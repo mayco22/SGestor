@@ -1,6 +1,5 @@
 package model.bean;
 
-import java.util.Date;
 
 /**
  *
@@ -12,6 +11,9 @@ public class Ordemservico {
     private Servico ser;
     private String date;
     private double valor;
+    private String descricao;
+    private int status;
+    private String dataFechamento;
 
     public int getId() {
         return id;
@@ -51,5 +53,29 @@ public class Ordemservico {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getDataFechamento() {
+        return dataFechamento;
+    }
+
+    public void setDataFechamento(String dataFechamento) {
+        this.dataFechamento = dataFechamento;
     }
 }

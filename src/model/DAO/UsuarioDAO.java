@@ -2,6 +2,8 @@ package model.DAO;
 
 import java.sql.Connection;
 import Connection.ConnectionFactory;
+import Connection.ConnectionSQlServer;
+import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +17,8 @@ import model.bean.Usuario;
  */
 public class UsuarioDAO {
     
-    public List<Usuario> read(){
-        Connection con = ConnectionFactory.getConnection();
+    public List<Usuario> read() throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs  = null;
         List<Usuario> u = new ArrayList<>(); 
@@ -40,11 +42,11 @@ public class UsuarioDAO {
             throw new RuntimeException(e);
         }
         finally{
-            ConnectionFactory.closeConnection(con,stmt,rs);
+            ConnectionSQlServer.closeConnection(con,stmt,rs);
         }
     }
-    public void create(Usuario u){
-        Connection con = ConnectionFactory.getConnection();
+    public void create(Usuario u) throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         try{
             stmt = con.prepareStatement("INSERT INTO usuario(nome,senha,perfil) VALUES (?,?,?)");
@@ -58,11 +60,11 @@ public class UsuarioDAO {
             throw new RuntimeException(e);
         }
         finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
-    public void update(Usuario u){
-        Connection con = ConnectionFactory.getConnection();
+    public void update(Usuario u) throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement("UPDATE usuario set nome=?,senha=?,perfil=? WHERE id =?");
@@ -77,11 +79,11 @@ public class UsuarioDAO {
             JOptionPane.showMessageDialog(null, "erro:"+e);
         }
         finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
-    public void delete(int id){
-        Connection con = ConnectionFactory.getConnection();
+    public void delete(int id) throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         
         try {
@@ -90,38 +92,32 @@ public class UsuarioDAO {
             
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Deletado com sucesso.");
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, "ERRO:"+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
         
     }
-    public List<Usuario> autenticacao(String nome,String senha){
-        Connection con = ConnectionFactory.getConnection();
+    public int autenticacao(String nome,String senha) throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Usuario> l = new ArrayList<>();
+        int l=0;
         try {
-            stmt = con.prepareStatement("SELECT * FROM usuario WHERE nome = ? AND senha = ?");
+            stmt = con.prepareStatement("select dbo.fc_aut(?,?)");
             stmt.setString(1, nome);
             stmt.setString(2, senha);
             rs = stmt.executeQuery();
             while(rs.next()){
-                Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("id"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setPerfil(rs.getString("perfil"));
-                
-                l.add(usuario);
+                l = rs.getInt("");
             }
             return l;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro: "+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionSQlServer.closeConnection(con, stmt, rs);
         }
-        return null;
+        return 0;
     }
 }

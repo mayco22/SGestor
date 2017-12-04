@@ -1,7 +1,7 @@
 package model.DAO;
 
 import java.sql.Connection;
-import Connection.ConnectionFactory;
+import Connection.ConnectionSQlServer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +17,9 @@ import model.bean.Cliente;
 public class ClienteDAO {
     
     
-    public void Create(Cliente c ){
+    public void Create(Cliente c ) throws SQLException{
         PreparedStatement stmt = null;
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         try {
             stmt = con.prepareStatement("INSERT INTO Cliente(nome_cli,email_cli,telefone_cli,celular_cli) VALUES (?,?,?,?)");
             stmt.setString(1, c.getNome());
@@ -33,12 +33,12 @@ public class ClienteDAO {
             JOptionPane.showMessageDialog(null, "erro:"+ex);
         }
         finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
-    public void update(Cliente c){
+    public void update(Cliente c) throws SQLException{
         PreparedStatement stmt = null;
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         try {
             stmt = con.prepareStatement("UPDATE Cliente SET nome_cli=?,email_cli=?,telefone_cli=?,celular_cli=? WHERE id_cli = ?");
             stmt.setString(1, c.getNome());
@@ -53,11 +53,11 @@ public class ClienteDAO {
             JOptionPane.showMessageDialog(null, "erro:"+e);        
         }
         finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
-    public List<Cliente> read(){
-        Connection con = ConnectionFactory.getConnection();
+    public List<Cliente> read() throws SQLException{
+        Connection con = ConnectionSQlServer.getConnection();
         List<Cliente> l = new ArrayList<>();
         PreparedStatement stmt =null;
         ResultSet rs = null;
@@ -80,13 +80,13 @@ public class ClienteDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "erro:"+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionSQlServer.closeConnection(con, stmt, rs);
         }
         return null;
     }
-    public void delete(Cliente c){
+    public void delete(Cliente c) throws SQLException{
         PreparedStatement stmt= null;
-        Connection con = ConnectionFactory.getConnection();
+        Connection con = ConnectionSQlServer.getConnection();
         try {
             stmt = con.prepareStatement("DELETE FROM Cliente WHERE id_cli =?");
             stmt.setInt(1, c.getId());
@@ -96,7 +96,7 @@ public class ClienteDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro: "+e);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionSQlServer.closeConnection(con, stmt);
         }
     }
     

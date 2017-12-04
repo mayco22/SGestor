@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.DAO.ClienteDAO;
@@ -20,14 +23,14 @@ public class ListarContatos extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListarContatos
      */
-    public ListarContatos() {
+    public ListarContatos() throws SQLException {
         initComponents();
         DefaultTableModel modelo = (DefaultTableModel) jTablecontatos.getModel();
         jTablecontatos.setRowSorter(new TableRowSorter(modelo));
         readTable();
         
     }
-    private void readTable(){
+    private void readTable() throws SQLException{
         DefaultTableModel modelo = (DefaultTableModel) jTablecontatos.getModel();
         ClienteDAO c = new ClienteDAO();
         
@@ -141,13 +144,25 @@ public class ListarContatos extends javax.swing.JInternalFrame {
         int po = jTablecontatos.getSelectedRow();
         String nome = jTablecontatos.getValueAt(po, 0).toString();
         
-        for(Cliente c :cd.read()){
-            if(c.getNome().equals(nome))
-                cd.delete(c);
+        try {
+            for(Cliente c :cd.read()){
+                if(c.getNome().equals(nome))
+                    try {
+                        cd.delete(c);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ListarContatos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ListarContatos.class.getName()).log(Level.SEVERE, null, ex);
         }
         modelo.removeRow(po);
         limpaTabela();
-        readTable();
+        try {
+            readTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(ListarContatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -160,7 +175,11 @@ public class ListarContatos extends javax.swing.JInternalFrame {
         int po = jTablecontatos.getSelectedRow();
         String nome = jTablecontatos.getValueAt(po, 0).toString();
         
-        a.atualizarcli(nome);
+        try {
+            a.atualizarcli(nome);
+        } catch (SQLException ex) {
+            Logger.getLogger(ListarContatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
       
     }//GEN-LAST:event_jButton2ActionPerformed
     public void limpaTabela(){
