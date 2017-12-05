@@ -2,6 +2,6 @@
 
 feito com IDE NetBeans, 
 
-Necessario Banco de dados SQlServer
+Necessario Banco de dados SQlServer (Script gerado) 
 
-Projeto foi feito para atender os processos 
+Projeto foi feito para Aprendizado em desenvolvimento desktop.
